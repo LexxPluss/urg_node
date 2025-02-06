@@ -294,7 +294,7 @@ bool URGCWrapper::grabScan(const sensor_msgs::MultiEchoLaserScanPtr& msg)
   }
   if (num_beams <= 0)
   {
-    ROS_WARN_STREAM("Failed to grabScan. Error Code: " << num_beams);
+    ROS_WARN_STREAM("Failed to grab scan. Error Code: " << num_beams);
     return false;
   }
 

@@ -191,7 +191,7 @@ bool UrgNode::reconfigure_callback(urg_node::URGConfig& config, int level)
 {
   if (!urg_)
   {
-    ROS_ERROR("Reconfigure failed, not ready");
+    ROS_WARN("Reconfigure failed, not ready");
     return false;
   }
 
@@ -488,13 +488,13 @@ bool UrgNode::connect()
   }
   catch (std::runtime_error& e)
   {
-    ROS_ERROR_THROTTLE(10.0, "Error connecting to Hokuyo: %s", e.what());
+    ROS_WARN_THROTTLE(10.0, "Error connecting to Hokuyo: %s", e.what());
     urg_.reset();
     return false;
   }
   catch (std::exception& e)
   {
-    ROS_ERROR_THROTTLE(10.0, "Unknown error connecting to Hokuyo: %s", e.what());
+    ROS_WARN_THROTTLE(10.0, "Unknown error connecting to Hokuyo: %s", e.what());
     urg_.reset();
     return false;
   }
@@ -562,14 +562,14 @@ void UrgNode::scanThread()
     }
     catch (std::runtime_error& e)
     {
-      ROS_ERROR_THROTTLE(10.0, "Error starting Hokuyo: %s", e.what());
+      ROS_WARN_THROTTLE(10.0, "Error starting Hokuyo: %s", e.what());
       urg_.reset();
       ros::Duration(1.0).sleep();
       continue;  // Return to top of main loop
     }
     catch (...)
     {
-      ROS_ERROR_THROTTLE(10.0, "Unknown error starting Hokuyo");
+      ROS_WARN_THROTTLE(10.0, "Unknown error starting Hokuyo");
       urg_.reset();
       ros::Duration(1.0).sleep();
       continue;  // Return to top of main loop
@@ -614,7 +614,7 @@ void UrgNode::scanThread()
       }
       catch (...)
       {
-        ROS_ERROR_THROTTLE(10.0, "Unknown error grabbing Hokuyo scan.");
+        ROS_WARN_THROTTLE(10.0, "Unknown error grabbing Hokuyo scan.");
         error_count_++;
       }
 
@@ -627,7 +627,7 @@ void UrgNode::scanThread()
       // Reestablish conneciton if things seem to have gone wrong.
       if (error_count_ > error_limit_)
       {
-        ROS_ERROR_THROTTLE(10.0, "Error count exceeded limit, reconnecting.");
+        ROS_WARN_THROTTLE(10.0, "Error count exceeded limit, reconnecting.");
         urg_.reset();
         ros::Duration(2.0).sleep();
 

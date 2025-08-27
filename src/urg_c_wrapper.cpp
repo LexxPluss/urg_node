@@ -607,7 +607,7 @@ std::string URGCWrapper::sendCommand(std::string cmd)
     total_read_len += read_len;
     if (read_len <= 0)
     {
-      ROS_ERROR("Read socket failed: %s", strerror(errno));
+      ROS_WARN("Read socket failed: %s", strerror(errno));
       result.clear();
       return result;
     }
@@ -626,7 +626,7 @@ std::string URGCWrapper::sendCommand(std::string cmd)
   // based on the currently known messages on the hokuyo documentations
   if (arr_size > 10000)
   {
-    ROS_ERROR("Buffer creation bounds exceeded, shouldn't allocate: %u bytes", arr_size);
+    ROS_WARN("Buffer creation bounds exceeded, shouldn't allocate: %u bytes", arr_size);
     result.clear();
     return result;
   }
@@ -649,7 +649,7 @@ std::string URGCWrapper::sendCommand(std::string cmd)
     ROS_DEBUG_STREAM("Read in after header " << read_len);
     if (read_len <= 0)
     {
-      ROS_ERROR("Read socket failed: %s", strerror(errno));
+      ROS_WARN("Read socket failed: %s", strerror(errno));
       result.clear();
       return result;
     }
